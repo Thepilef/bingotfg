@@ -184,26 +184,14 @@ def logout():
     flash('Has cerrado sesión correctamente', 'info')
     return redirect(url_for('index'))
 #--------------------------------------------------------------#
+
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
-""" def dashboard():
-    cartones = None
-    if request.method == 'POST':
-        try:
-            cantidad_cartones = int(request.form.get('cantidad_cartones', 1))
-            cartones = generar_cartones(cantidad_cartones)
-            return render_template('cartones.html', cartones=cartones)
-        except Exception as e:
-            flash(str(e), 'error')
-    stats = ejecutar_consulta(
-        """SELECT 
-            (SELECT COUNT(*) FROM salas WHERE creador_id = %s) AS salas_creadas,
-            (SELECT COUNT(*) FROM jugadores_sala WHERE usuario_id = %s) AS salas_participadas""",
-        (session['usuario_id'], session['usuario_id']),
-        fetch_one=True
-    )
-    return render_template('dashboard.html', stats=stats, usuario_id=session['usuario_id'], cartones=cartones)
- """
+
+
+
+
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
