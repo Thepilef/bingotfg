@@ -83,6 +83,44 @@ def generar_codigo_sala():
     """Genera un ID único de 8 caracteres para la sala."""
     return uuid.uuid4().hex[:8].upper()
 
+@app.route('/sala/<sala_id>')
+@login_required
+def sala(sala_id):
+    sala_existente = ejecutar_consulta(
+        "SELECT * FROM salas WHERE id = %s", (sala_id,), fetch_one=True
+    )
+    if not sala_existente:
+        flash("La sala no existe", "error")
+        return redirect(url_for('dashboard'))
+
+    return render_template('sala.html', sala_id=sala_id, usuario=session['usuario_nombre'])
+
+@app.route('/unirse_sala', methods=['POST'])
+@login_required
+def unirse_sala():
+    codigo_sala = request.form.get('codigo_sala')
+
+    # Verificar si la sala existe
+    sala = ejecutar_consulta("SELECT * FROM salas WHERE id = %s", (codigo_sala,), fetch_one=True)
+    
+    if not sala:
+        flash("El código de la sala es incorrecto o no existe.", "error")
+        return redirect(url_for('dashboard'))
+
+    # Unir al usuario a la sala
+    if ejecutar_consulta(
+        "INSERT INTO jugadores_sala (sala_id, usuario_id) VALUES (%s, %s)",
+        (codigo_sala, session['usuario_id']),
+        commit=True
+    ):
+        flash(f"¡Te has unido a la sala {codigo_sala}!", "success")
+        return redirect(url_for('sala', sala_id=codigo_sala))
+    else:
+        flash("Error al unirse a la sala.", "error")
+        return redirect(url_for('dashboard'))
+
+
+
 def generar_cartones(cantidad):
     cartones = []
     numeros_usados = set()  # Para almacenar números ya utilizados

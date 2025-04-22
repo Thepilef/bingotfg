@@ -1,0 +1,25 @@
+<!-- templates/sala.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sala de Bingo</title>
+</head>
+<body>
+    <h1>Sala: {{ sala_id }}</h1>
+    <p>Bienvenido, {{ usuario }}. Esperando a más jugadores...</p>
+
+    <button onclick="window.location.href='{{ url_for('dashboard') }}'">Volver</button>
+
+    <script src="https://cdn.socket.io/4.6.1/socket.io.min.js"></script>
+    <script>
+        const socket = io();
+
+        socket.emit('unirse_bingo', { sala: '{{ sala_id }}' });
+
+        socket.on('jugador_unido', (data) => {
+            alert(data.mensaje); // Puedes mostrar esto en el DOM también
+        });
+    </script>
+</body>
+</html>
