@@ -75,3 +75,7 @@ a:hover {
     font-size: 2rem;
     margin-bottom: 1rem;
 }
+
+#btn-sala {
+    width: 100%;
+}
