@@ -186,7 +186,7 @@ def logout():
 #--------------------------------------------------------------#
 @app.route('/dashboard', methods=['GET', 'POST'])
 @login_required
-def dashboard():
+""" def dashboard():
     cartones = None
     if request.method == 'POST':
         try:
@@ -203,7 +203,7 @@ def dashboard():
         fetch_one=True
     )
     return render_template('dashboard.html', stats=stats, usuario_id=session['usuario_id'], cartones=cartones)
-
+ """
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
